@@ -9,6 +9,7 @@ src_dir = Src
 [common]
 build_flags =
   -I .
+  -I boards
   -D L1_CACHE_ENABLE=1
   -D OVERRIDE_MY_MACHINE
   -I FATFS/Target
@@ -17,6 +18,7 @@ build_flags =
   -Wl,-u,_printf_float
   -Wl,-u,_scanf_float
 lib_deps =
+  boards
   bluetooth
   grbl
   eeprom
@@ -27,6 +29,7 @@ lib_deps =
   trinamic
   odometer
   openpnp
+  plugins
   sdcard
   spindle
   webui
@@ -75,11 +78,25 @@ build_flags =
   -I Middlewares/Third_Party/LwIP/src/include/lwip
   -I Drivers/BSP/Components/lan8742
 lib_deps =
+   networking
+   webui
+   LWIP/App
    LWIP/Target
+   Middlewares/Third_Party/LwIP
+   Drivers/BSP/Components/lan8742
+lib_extra_dirs =
+
+[wiznet_networking]
+build_flags =
+  -I networking/wiznet
+  -I Middlewares/Third_Party/LwIP/src/include
+  -I Middlewares/Third_Party/LwIP/system
+  -I Middlewares/Third_Party/LwIP/src/include/netif
+  -I Middlewares/Third_Party/LwIP/src/include/lwip
+lib_deps =
    networking
    webui
    Middlewares/Third_Party/LwIP
-   Drivers/BSP/Components/lan8742
 lib_extra_dirs =
 
 # Note: The platformio package registry does not yet include framework-stm32cubeh7@v1.10, which introduced

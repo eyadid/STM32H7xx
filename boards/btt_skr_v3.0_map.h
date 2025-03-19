@@ -30,9 +30,10 @@
 #define BOARD_NAME "BTT SKR-3"
 #define BOARD_URL "https://github.com/bigtreetech/SKR-3"
 
-#define SERIAL_PORT  1   // GPIOA: TX =  9, RX = 10
+#define SERIAL_PORT                 1   // TFT header, GPIOA: TX = 9, RX = 10
+#define SERIAL1_PORT                32  // ESP-32,     GPIOD: TX = 8, RX = 9
 
-#define HAS_BOARD_INIT
+#define COPROC_STREAM               1   // Use SERIAL1_PORT definition
 
 // Define step pulse output pins.
 #define X_STEP_PORT                 GPIOD
@@ -107,26 +108,45 @@
 #define AUXOUTPUT1_PIN              5
 #define AUXOUTPUT2_PORT             GPIOB                       // Spindle enable - FAN1
 #define AUXOUTPUT2_PIN              6
+#define AUXOUTPUT3_PORT             GPIOB                       // Coolant flood - HEAT0
+#define AUXOUTPUT3_PIN              3
+#define AUXOUTPUT4_PORT             GPIOB                       // Coolant mist - HEAT1
+#define AUXOUTPUT4_PIN              4
+#define AUXOUTPUT5_PORT             GPIOB                       // ESP32 IO0
+#define AUXOUTPUT5_PIN              10
+#define AUXOUTPUT6_PORT             GPIOC                       // ESP32 RST
+#define AUXOUTPUT6_PIN              14
 
 // Define driver spindle pins.
-#if DRIVER_SPINDLE_ENABLE
+#if DRIVER_SPINDLE_ENABLE & SPINDLE_ENA
 #define SPINDLE_ENABLE_PORT         AUXOUTPUT2_PORT
 #define SPINDLE_ENABLE_PIN          AUXOUTPUT2_PIN
-#if DRIVER_SPINDLE_PWM_ENABLE
+#endif
+#if DRIVER_SPINDLE_ENABLE & SPINDLE_PWM
 #define SPINDLE_PWM_PORT            AUXOUTPUT0_PORT
 #define SPINDLE_PWM_PIN             AUXOUTPUT0_PIN
 #endif
-#if DRIVER_SPINDLE_DIR_ENABLE
+#if DRIVER_SPINDLE_ENABLE & SPINDLE_DIR
 #define SPINDLE_DIRECTION_PORT      AUXOUTPUT1_PORT
 #define SPINDLE_DIRECTION_PIN       AUXOUTPUT1_PIN
 #endif
-#endif //DRIVER_SPINDLE_ENABLE
 
 // Define flood and mist coolant enable output pins.
-#define COOLANT_FLOOD_PORT          GPIOB
-#define COOLANT_FLOOD_PIN           3                           // HEAT0
-#define COOLANT_MIST_PORT           GPIOB
-#define COOLANT_MIST_PIN            4                           // HEAT1
+#if COOLANT_ENABLE & COOLANT_FLOOD
+#define COOLANT_FLOOD_PORT          AUXOUTPUT3_PORT
+#define COOLANT_FLOOD_PIN           AUXOUTPUT3_PIN
+#endif
+#if COOLANT_ENABLE & COOLANT_MIST
+#define COOLANT_MIST_PORT           AUXOUTPUT4_PORT
+#define COOLANT_MIST_PIN            AUXOUTPUT4_PIN
+#endif
+
+#if ESP_AT_ENABLE
+#define COPROC_RESET_PORT           AUXOUTPUT6_PORT
+#define COPROC_RESET_PIN            AUXOUTPUT6_PIN
+#define COPROC_BOOT0_PORT           AUXOUTPUT5_PORT
+#define COPROC_BOOT0_PIN            AUXOUTPUT5_PIN
+#endif
 
 // Define user-control controls (cycle start, reset, feed hold) input pins.
 // These are all available on EXP2 along with electrical RESET* (EXP2, pin 3)

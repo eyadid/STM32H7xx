@@ -14,12 +14,16 @@
     "digital_in": 7,
     "digital_out": 8,
     "analog_in": 2,
+    "analog_out": 2,
+    "analog_pwm_out": 2,
+    "probe": 1,
     "safety_door": 1,
     "estop": 1,
-    "probe": 1,
     "mpg_mode": 1,
     "sdcard": 1,
     "ethernet": 1,
+    "rgb_out": 2,
+    "wiznet": 1,
     "plugins": [
       { "id": "spindle" },
       { "id": "modbus" },
@@ -34,7 +38,15 @@
       { "id": "laser_coolant" },
       { "id": "fans" },
       { "id": "openpnp" },
-      { "id": "bluetooth" }
+      { "id": "bluetooth" },
+      { "id": "rgb_leds" },
+      { "id": "eventout" },
+      { "id": "homing_pulloff" },
+      { "id": "feed_override" },
+      { "id": "pwm_servo" },
+      { "id": "bltouch" },
+      { "id": "esp_at" },
+      { "id": "embroidery" }
     ]
   },
   "symbols": {
@@ -42,14 +54,29 @@
     "BLOCK_BUFFER_DYNAMIC": ""
   },
   "symbols_networking": {
-    "TCP_ECHOSERVER_ENABLE": 1
+    "TCP_ECHOSERVER_ENABLE": 1,
+    "TCP_MSS": 1460,
+    "TCP_SND_BUF": 5840,
+    "MEM_SIZE": 28672,
+    "LWIP_NUM_NETIF_CLIENT_DATA": 2,
+    "LWIP_IGMP": 1,
+    "LWIP_MDNS": 1,
+    "LWIP_MDNS_RESPONDER": 1,
+    "MDNS_MAX_SERVICES": 8,
+    "LWIP_HTTPD_CUSTOM_FILES": 0,
+    "LWIP_HTTPD_DYNAMIC_HEADERS": 1,
+    "LWIP_HTTPD_DYNAMIC_FILE_READ": 1,
+    "LWIP_HTTPD_SUPPORT_V09": 0,
+    "LWIP_HTTPD_SUPPORT_11_KEEPALIVE": 1,
+    "LWIP_HTTPD_SUPPORT_POST": 1,
+    "HTTPD_LIMIT_SENDING_TO_2MSS": 0
   },
   "boards": [
     {
       "name": "BTT SKR 3 H743",
       "symbol": "BOARD_BTT_SKR_30",
       "URL": "https://github.com/bigtreetech/SKR-3",
-      "MAP": "Inc/btt_skr_v3.0_map.h",
+      "MAP": "boards/btt_skr_v3.0_map.h",
       "caps": {
         "axes": 5,
         "safety_door": 1,
@@ -71,7 +98,7 @@
       "name": "BTT SKR 3 H743 (bootloader)",
       "symbol": "BOARD_BTT_SKR_30",
       "URL": "https://github.com/bigtreetech/SKR-3",
-      "MAP": "Inc/btt_skr_v3.0_map.h",
+      "MAP": "boards/btt_skr_v3.0_map.h",
       "caps": {
         "axes": 5,
         "safety_door": 1,
@@ -93,7 +120,7 @@
       "name": "BTT SKR 3 H723",
       "symbol": "BOARD_BTT_SKR_30",
       "URL": "https://github.com/bigtreetech/SKR-3",
-      "MAP": "Inc/btt_skr_v3.0_map.h",
+      "MAP": "boards/btt_skr_v3.0_map.h",
       "caps": {
         "axes": 5,
         "safety_door": 1,
@@ -115,7 +142,7 @@
       "name": "BTT SKR 3 H723 (bootloader)",
       "symbol": "BOARD_BTT_SKR_30",
       "URL": "https://github.com/bigtreetech/SKR-3",
-      "MAP": "Inc/btt_skr_v3.0_map.h",
+      "MAP": "boards/btt_skr_v3.0_map.h",
       "caps": {
         "axes": 5,
         "safety_door": 1,
@@ -134,10 +161,56 @@
       }
     },
     {
-      "name": "BTT Octopus MAX 3 H723",
+      "name": "BTT Scylla H723",
+      "symbol": "BOARD_BTT_SCYLLA",
+      "URL": "https://github.com/bigtreetech",
+      "MAP": "boards/btt_scylla_map.h",
+      "caps": {
+        "axes": 4,
+        "safety_door": 1,
+        "serial_ports": 2,
+        "trinamic_spi_cs": 1,
+        "trinamic": 5160,
+        "trinamic_r_sense": 50,
+        "pio_board": "generic_stm32h723vg",
+        "ldscript": "STM32H723VGTX_FLASH.ld"
+      },
+      "symbols" : {
+        "STM32H723xx": "",
+        "HSE_VALUE": 25000000
+      },
+      "pio_env" : {
+        "name": "usb_h723"
+      }
+    },
+    {
+      "name": "BTT Scylla H723 (bootloader)",
+      "symbol": "BOARD_BTT_SCYLLA",
+      "URL": "https://github.com/bigtreetech",
+      "MAP": "boards/btt_scylla_map.h",
+      "caps": {
+        "axes": 4,
+        "safety_door": 1,
+        "serial_ports": 2,
+        "trinamic_spi_cs": 1,
+        "trinamic": 5160,
+        "trinamic_r_sense": 50,
+        "pio_board": "generic_stm32h723vg",
+        "ldscript": "STM32H723VGTX_FLASH_BL.ld"
+      },
+      "symbols" : {
+        "STM32H723xx": "",
+        "HSE_VALUE": 25000000
+      },
+      "pio_env" : {
+        "name": "usb_h723"
+      }
+    },
+    {
+      "name": "BTT Octopus MAX H723",
       "symbol": "BOARD_BTT_OCTOPUS_MAX",
       "URL": "https://github.com/bigtreetech/Octopus-Max-EZ",
-      "MAP": "Inc/btt_octopus_max_map.h",
+      "MAP": "boards/btt_octopus_max_map.h",
       "caps": {
         "axes": 6,
         "eeprom": -32,
@@ -158,10 +231,10 @@
       }
     },
     {
-      "name": "BTT Octopus MAX 3 H723 (bootloader)",
+      "name": "BTT Octopus MAX H723 (bootloader)",
       "symbol": "BOARD_BTT_OCTOPUS_MAX",
       "URL": "https://github.com/bigtreetech/Octopus-Max-EZ",
-      "MAP": "Inc/btt_octopus_max_map.h",
+      "MAP": "boards/btt_octopus_max_map.h",
       "caps": {
         "axes": 6,
         "eeprom": -32,
@@ -182,10 +255,58 @@
       }
     },
     {
+      "name": "BTT Octopus Pro 1.1 H723",
+      "symbol": "BOARD_BTT_OCTOPUS_PRO",
+      "URL": "https://github.com/bigtreetech/BIGTREETECH-OCTOPUS-Pro",
+      "MAP": "boards/btt_octopus_pro_map.h",
+      "caps": {
+        "axes": 8,
+        "eeprom": -32,
+        "fram": 0,
+        "safety_door": 1,
+        "serial_ports": 3,
+        "trinamic_spi_cs": 1,
+        "trinamic_uart_addr": 1,
+        "pio_board": "generic_stm32h723ze",
+        "ldscript": "STM32H723ZETX_FLASH.ld"
+      },
+      "symbols" : {
+        "STM32H723xx": "",
+        "HSE_VALUE": 25000000
+      },
+      "pio_env" : {
+        "name": "usb_h723"
+      }
+    },
+    {
+      "name": "BTT Octopus Pro 1.1 H723 (bootloader)",
+      "symbol": "BOARD_BTT_OCTOPUS_PRO",
+      "URL": "https://github.com/bigtreetech/BIGTREETECH-OCTOPUS-Pro",
+      "MAP": "boards/btt_octopus_pro_map.h",
+      "caps": {
+        "axes": 8,
+        "eeprom": -32,
+        "fram": 0,
+        "safety_door": 1,
+        "serial_ports": 3,
+        "trinamic_spi_cs": 1,
+        "trinamic_uart_addr": 1,
+        "pio_board": "generic_stm32h723ze",
+        "ldscript": "STM32H723ZETX_FLASH_BL.ld"
+      },
+      "symbols" : {
+        "STM32H723xx": "",
+        "HSE_VALUE": 25000000
+      },
+      "pio_env" : {
+        "name": "usb_h723"
+      }
+    },
+    {
       "name": "Nucleo H743 reference map",
       "symbol": "BOARD_REFERENCE",
       "URL": "https://www.st.com/en/evaluation-tools/nucleo-h743zi.html",
-      "MAP": "Inc/reference_map.h",
+      "MAP": "boards/reference_map.h",
       "caps": {
         "axes": 8,
         "digital_in": 3,
@@ -193,6 +314,7 @@
         "serial_ports": 2,
         "ethernet": 1,
         "usb_cdc": 0,
+        "rgb_out": 1,
         "pio_board": "nucleo_h743zi",
         "ldscript": "STM32H743ZITX_FLASH.ld"
       },
@@ -209,7 +331,7 @@
       "name": "Nucleo H723 reference map",
       "symbol": "BOARD_REFERENCE",
       "URL": "https://www.st.com/en/evaluation-tools/nucleo-h743zi.html",
-      "MAP": "Inc/reference_map.h",
+      "MAP": "boards/reference_map.h",
       "caps": {
         "axes": 8,
         "digital_in": 3,
@@ -217,6 +339,7 @@
         "serial_ports": 2,
         "ethernet": 1,
         "usb_cdc": 0,
+        "rgb_out": 1,
         "pio_board": "nucleo_h723zg",
         "ldscript": "STM32H723ZGTX_FLASH.ld"
       },
@@ -232,7 +355,7 @@
     {
       "name": "WeAct Mini H743",
       "symbol": "BOARD_WEACT_MINI",
-      "MAP": "Inc/weact_mini_map.h",
+      "MAP": "boards/weact_mini_map.h",
       "URL": "https://github.com/WeActStudio/MiniSTM32H7xx",
       "caps": {
         "axes": 3,
@@ -240,6 +363,7 @@
         "serial_ports": 1,
         "trinamic_spi_cs": 1,
         "trinamic_uart_addr": 1,
+        "wiznet": 1,
         "pio_board": "generic_stm32h743vi",
         "ldscript": "STM32H743VITX_FLASH.ld"
       },
@@ -255,7 +379,7 @@
     {
       "name": "WeAct Mini H723",
       "symbol": "BOARD_WEACT_MINI",
-      "MAP": "Inc/weact_mini_map.h",
+      "MAP": "boards/weact_mini_map.h",
       "URL": "https://github.com/WeActStudio/MiniSTM32H7xx",
       "caps": {
         "axes": 3,
@@ -263,6 +387,7 @@
         "serial_ports": 1,
         "trinamic_spi_cs": 1,
         "trinamic_uart_addr": 1,
+        "wiznet": 1,
         "pio_board": "generic_stm32h723vg",
         "ldscript": "STM32H723VGTX_FLASH.ld"
       },

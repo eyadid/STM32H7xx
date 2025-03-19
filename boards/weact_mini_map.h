@@ -27,15 +27,13 @@
 #error "This board has STM32H7xx processor with a 25MHz crystal, select a corresponding build!"
 #endif
 
-#define BOARD_NAME "WeAct Mini H743"
+#define BOARD_NAME "WeAct Mini H7xx"
 #define BOARD_URL "https://github.com/WeActStudio/MiniSTM32H7xx"
 
 #define SERIAL_PORT  1     // GPIOA: TX =  9, RX = 10
 
 #define SPIFLASH_PINOUT 1  // CS = PB6, CLK = PB2, IO0 = PD11, IO1 = PD12, IO2 = PE2, IO3 = PD13
 #define SPIFLASH_SIZE   64 // 64 Mb = 8 MB
-
-#define HAS_BOARD_INIT
 
 // Define step pulse output pins.
 #define X_STEP_PORT                 GPIOB
@@ -81,26 +79,34 @@
 #define AUXOUTPUT1_PIN              5
 #define AUXOUTPUT2_PORT             GPIOB                       // Spindle enable
 #define AUXOUTPUT2_PIN              7
+#define AUXOUTPUT3_PORT             GPIOD                       // Coolant flood
+#define AUXOUTPUT3_PIN              14
+#define AUXOUTPUT4_PORT             GPIOD                       // Coolant mist
+#define AUXOUTPUT4_PIN              15
 
 // Define driver spindle pins.
-#if DRIVER_SPINDLE_ENABLE
+#if DRIVER_SPINDLE_ENABLE & SPINDLE_ENA
 #define SPINDLE_ENABLE_PORT         AUXOUTPUT2_PORT
 #define SPINDLE_ENABLE_PIN          AUXOUTPUT2_PIN
-#if DRIVER_SPINDLE_PWM_ENABLE
+#endif
+#if DRIVER_SPINDLE_ENABLE & SPINDLE_PWM
 #define SPINDLE_PWM_PORT            AUXOUTPUT0_PORT
 #define SPINDLE_PWM_PIN             AUXOUTPUT0_PIN
 #endif
-#if DRIVER_SPINDLE_DIR_ENABLE
+#if DRIVER_SPINDLE_ENABLE & SPINDLE_DIR
 #define SPINDLE_DIRECTION_PORT      AUXOUTPUT1_PORT
 #define SPINDLE_DIRECTION_PIN       AUXOUTPUT1_PIN
 #endif
-#endif //DRIVER_SPINDLE_ENABLE
 
 // Define flood and mist coolant enable output pins.
-#define COOLANT_FLOOD_PORT          GPIOD
-#define COOLANT_FLOOD_PIN           14
-#define COOLANT_MIST_PORT           GPIOD
-#define COOLANT_MIST_PIN            15
+#if COOLANT_ENABLE & COOLANT_FLOOD
+#define COOLANT_FLOOD_PORT          AUXOUTPUT3_PORT
+#define COOLANT_FLOOD_PIN           AUXOUTPUT3_PIN
+#endif
+#if COOLANT_ENABLE & COOLANT_MIST
+#define COOLANT_MIST_PORT           AUXOUTPUT4_PORT
+#define COOLANT_MIST_PIN            AUXOUTPUT4_PIN
+#endif
 
 // Define user-control controls (cycle start, reset, feed hold) input pins.
 // These are all available on EXP2 along with electrical RESET* (EXP2, pin 3)
@@ -160,6 +166,18 @@
 #define MOTOR_CSZ_PORT              GPIOE
 #define MOTOR_CSZ_PIN               6
 
+#endif
+
+// WIZnet WS550 testing
+#if ETHERNET_ENABLE && defined(_WIZCHIP_)
+#undef SPI_ENABLE
+#define SPI_PORT     1              // GPIOA, SCK_PIN = 5, MISO_PIN = 6, MOSI_PIN = 7
+#define SPI_IRQ_PORT GPIOA
+#define SPI_IRQ_PIN  2
+#define SPI_CS_PORT  GPIOA
+#define SPI_CS_PIN   3
+#define SPI_RST_PORT GPIOA
+#define SPI_RST_PIN  4
 #endif
 
 // EOF

@@ -1,9 +1,10 @@
 /*
-  i2c.h - I2C support for EEPROM, keypad and Trinamic plugins
 
-  Part of grblHAL driver for STM32H7xx
+  timers.h - driver code for STM32H7xx ARM processors
 
-  Copyright (c) 2018-2025 Terje Io
+  Part of grblHAL
+
+  Copyright (c) 2024 Terje Io
 
   grblHAL is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,14 +22,18 @@
 
 #pragma once
 
-#include "driver.h"
-#include "grbl/plugins.h"
+/* Internal API */
 
-#if TRINAMIC_ENABLE == 2130 && TRINAMIC_I2C
+bool timer_claim (TIM_TypeDef *timer);
+bool timer_is_claimed (TIM_TypeDef *timer);
+uint32_t timer_clk_enable (TIM_TypeDef *timer);
+uint32_t timer_get_clock_hz (TIM_TypeDef *timer);
 
-#include "motors/trinamic.h"
-#include "trinamic/tmc_i2c_interface.h"
+/* HAL API */
 
-#define I2C_ADR_I2CBRIDGE 0x47
+hal_timer_t timerClaim (timer_cap_t cap, uint32_t timebase);
+bool timerCfg (hal_timer_t timer, timer_cfg_t *cfg);
+bool timerStart (hal_timer_t timer, uint32_t period);
+bool timerStop (hal_timer_t timer);
 
-#endif
+/**/

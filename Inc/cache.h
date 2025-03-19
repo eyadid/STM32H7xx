@@ -1,9 +1,10 @@
 /*
-  i2c.h - I2C support for EEPROM, keypad and Trinamic plugins
 
-  Part of grblHAL driver for STM32H7xx
+  cache.h - Cache maintenance helper code for STM32H7xx ARM processors
 
-  Copyright (c) 2018-2025 Terje Io
+  Part of grblHAL
+
+  Copyright (c) 2024 Jon Escombe
 
   grblHAL is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,18 +18,18 @@
 
   You should have received a copy of the GNU General Public License
   along with grblHAL. If not, see <http://www.gnu.org/licenses/>.
+
 */
 
-#pragma once
+#ifndef __CACHE_H__
+#define __CACHE_H__
 
-#include "driver.h"
-#include "grbl/plugins.h"
+#ifndef align_up
+#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
+#endif
 
-#if TRINAMIC_ENABLE == 2130 && TRINAMIC_I2C
-
-#include "motors/trinamic.h"
-#include "trinamic/tmc_i2c_interface.h"
-
-#define I2C_ADR_I2CBRIDGE 0x47
+bool  is_cache_aligned(void *ptr, uint32_t len);
+void* cache_aligned_calloc(size_t num, size_t size);
+void  cache_aligned_free(void* ptr);
 
 #endif
