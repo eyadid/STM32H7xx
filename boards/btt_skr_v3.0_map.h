@@ -35,6 +35,11 @@
 
 #define COPROC_STREAM               1   // Use SERIAL1_PORT definition
 
+
+#define AUXOUTPUT0_PWM_PORT     GPIOE
+#define AUXOUTPUT0_PWM_PIN      5
+
+
 // Define step pulse output pins.
 #define X_STEP_PORT                 GPIOD
 #define X_STEP_PIN                  4                   // X
