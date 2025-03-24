@@ -129,17 +129,17 @@ static void pwm_out (uint8_t port, float value)
         if(pwm_value == aux_out_analog[port].pwm->data.off_value) {
             if(aux_out_analog[port].pwm->data.always_on) {
                 *pwm->ccr = aux_out_analog[port].pwm->data.off_value;
-                if(pwm->timer == TIM1)
+                if(pwm->timer == TIM1 || pwm->timer == TIM15)
                     pwm->timer->BDTR |= TIM_BDTR_MOE;
                 *pwm->ccr = 0;
             } else {
-                if(pwm->timer == TIM1)
+                if(pwm->timer == TIM1 || pwm->timer == TIM15)
                     pwm->timer->BDTR |= TIM_BDTR_MOE;
                 *pwm->ccr = 0;
             }
         } else {
             *pwm->ccr = pwm_value;
-            if(pwm->timer == TIM1)
+            if(pwm->timer == TIM1 || pwm->timer == TIM15)
                 pwm->timer->BDTR |= TIM_BDTR_MOE;
         }
     }
