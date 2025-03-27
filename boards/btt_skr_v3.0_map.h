@@ -36,8 +36,8 @@
 #define COPROC_STREAM               1   // Use SERIAL1_PORT definition
 
 
-#define AUXOUTPUT0_PWM_PORT     GPIOE
-#define AUXOUTPUT0_PWM_PIN      5
+//#define AUXOUTPUT0_PWM_PORT     GPIOE
+//#define AUXOUTPUT0_PWM_PIN      5
 
 
 // Define step pulse output pins.
@@ -128,8 +128,8 @@
 #define SPINDLE_ENABLE_PIN          AUXOUTPUT2_PIN
 #endif
 #if DRIVER_SPINDLE_ENABLE & SPINDLE_PWM
-#define SPINDLE_PWM_PORT            AUXOUTPUT0_PORT
-#define SPINDLE_PWM_PIN             AUXOUTPUT0_PIN
+#define SPINDLE_PWM_PORT            GPIOE
+#define SPINDLE_PWM_PIN             5
 #endif
 #if DRIVER_SPINDLE_ENABLE & SPINDLE_DIR
 #define SPINDLE_DIRECTION_PORT      AUXOUTPUT1_PORT
