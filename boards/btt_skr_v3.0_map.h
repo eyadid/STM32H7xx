@@ -34,6 +34,7 @@
 #define SERIAL1_PORT                32  // ESP-32,     GPIOD: TX = 8, RX = 9
 
 #define COPROC_STREAM               1   // Use SERIAL1_PORT definition
+#define SPINDLE_SERIAL_PORT         0   // Use SERIAL1_PORT definition
 
 
 //#define AUXOUTPUT0_PWM_PORT     GPIOE

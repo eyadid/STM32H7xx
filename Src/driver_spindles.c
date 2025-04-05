@@ -1,3 +1,4 @@
+#if DEFAULT_DRIVER_SPINDLE
 /*
   driver_spindles.c - driver code for STM32H7xx ARM processors
 
@@ -663,3 +664,5 @@ bool aux_out_claim_explicit (aux_ctrl_out_t *aux_ctrl)
 }
 
 #endif // DRIVER_SPINDLE_ENABLE || DRIVER_SPINDLE1_ENABLE
+
+#endif // DEFAULT_DRIVER_SPINDLE
