@@ -108,8 +108,8 @@
 #define M4_ENABLE_PIN               13
 #endif
 
-#define AUXOUTPUT0_PORT             GPIOB                       // Spindle PWM - EXP1 - PB0, pin 9
-#define AUXOUTPUT0_PIN              0
+#define AUXOUTPUT0_PORT             GPIOE                       // Spindle PWM - EXP1 - PB0, pin 9
+#define AUXOUTPUT0_PIN              5
 #define AUXOUTPUT1_PORT             GPIOB                       // Spindle direction - FAN2
 #define AUXOUTPUT1_PIN              5
 #define AUXOUTPUT2_PORT             GPIOB                       // Spindle enable - FAN1
@@ -129,8 +129,8 @@
 #define SPINDLE_ENABLE_PIN          AUXOUTPUT2_PIN
 #endif
 #if DRIVER_SPINDLE_ENABLE & SPINDLE_PWM
-#define SPINDLE_PWM_PORT            GPIOE
-#define SPINDLE_PWM_PIN             5
+#define SPINDLE_PWM_PORT            AUXOUTPUT0_PORT
+#define SPINDLE_PWM_PIN             AUXOUTPUT0_PIN
 #endif
 #if DRIVER_SPINDLE_ENABLE & SPINDLE_DIR
 #define SPINDLE_DIRECTION_PORT      AUXOUTPUT1_PORT
