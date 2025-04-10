@@ -58,4 +58,5 @@ void driver_spindles_init (void)
 
 bool aux_out_claim_explicit (aux_ctrl_out_t *aux_ctrl)
 {
+    return 0;
 }
